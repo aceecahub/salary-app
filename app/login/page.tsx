@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function SignIn() {
+export default function SignUp() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,7 +12,7 @@ export default function SignIn() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError(""); 
     setLoading(true);
 
     try {
@@ -77,12 +77,7 @@ export default function SignIn() {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-        <button
-          className="w-full cursor-pointer rounded-lg bg-black py-2 text-white disabled:opacity-50 mt-2 dark:bg-white dark:text-black"
-          onClick={() => router.push("/register")}
-        >
-          Register
-        </button>
+        <p>Don't have an account? <span className="text-blue-500 cursor-pointer" onClick={() => router.push("/register")}>Register</span></p>
       </main>
     </div>
   );

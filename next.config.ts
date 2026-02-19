@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://payroll.politekniklp3i-tasikmalaya.ac.id/:path*",
+        destination: "http://localhost:5000/api/:path*",
       },
     ];
   },
