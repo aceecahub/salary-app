@@ -1,8 +1,14 @@
 "use client";
 import React from "react";
+import Navigation from "../layout/navigation";
 
 const DashboardPage = () => {
-  return <div>Dashboard Page</div>;
+  return (
+    <>
+      <Navigation />
+      {/* <div>Dashboard Page</div> */}
+    </>
+  );
 };
 
 export default DashboardPage;
