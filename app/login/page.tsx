@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Lock } from "lucide-react";
 
 export default function SignUp() {
   const router = useRouter();
@@ -45,39 +46,66 @@ export default function SignUp() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-black">
-      <main className="w-full max-w-md rounded-2xl bg-white p-8 shadow dark:bg-zinc-900">
-        <h1 className="mb-6 text-center text-2xl font-semibold">Sign In</h1>
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
+      <main className="w-full max-w-md bg-white p-10 rounded-3xl shadow-sm border border-gray-100">
+        <div className="flex flex-col items-center mb-8">
+            <div className="bg-gray-100 p-4 rounded-2xl mb-4">
+                <Lock size={32} className="text-gray-600" strokeWidth={2.5} />
+            </div>
+            <h1 className="text-3xl font-bold text-gray-800">Welcome Back</h1>
+            <p className="text-gray-500 mt-2 text-center text-sm">Please enter your details to sign in to your account.</p>
+        </div>
 
-        <form onSubmit={handleLogin} className="space-y-4">
-          <input
-            type="email"
-            placeholder="admin@mail.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-lg border px-3 py-2"
-            required
-          />
+        <form onSubmit={handleLogin} className="space-y-5">
+            <div>
+                <label htmlFor="email" className="block font-bold text-gray-800 mb-1.5 ml-1 text-sm">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="admin@mail.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-900/10 focus:border-blue-900 transition-all"
+                    required
+                />
+            </div>
 
-          <input
-            type="password"
-            placeholder="••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-lg border px-3 py-2"
-            required
-          />
+            <div>
+                <label htmlFor="password" className="block font-bold text-gray-800 mb-1.5 ml-1 text-sm">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-900/10 focus:border-blue-900 transition-all"
+                    required
+                />
+            </div>
 
-          {error && <p className="text-sm text-red-500">{error}</p>}
+            {error && (
+                <div className="bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm font-medium">
+                    {error}
+                </div>
+            )}
 
-          <button
-            disabled={loading}
-            className="w-full cursor-pointer rounded-lg bg-black py-2 text-white disabled:opacity-50 dark:bg-white dark:text-black"
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
+            <button
+                disabled={loading}
+                className="w-full bg-blue-900 hover:bg-blue-950 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-blue-900/20 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+            >
+                {loading ? "Signing in..." : "Login"}
+            </button>
         </form>
-        <p>Don't have an account? <span className="text-blue-500 cursor-pointer" onClick={() => router.push("/register")}>Register</span></p>
+
+        <div className="mt-8 text-center text-sm text-gray-500">
+            Don't have an account?{" "}
+            <span 
+                className="text-blue-900 font-bold cursor-pointer hover:underline" 
+                onClick={() => router.push("/register")}
+            >
+                Register
+            </span>
+        </div>
       </main>
     </div>
   );
