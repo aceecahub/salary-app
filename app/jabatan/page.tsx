@@ -13,7 +13,7 @@ return (
         <main className="p-7">
             <h1 className="text-3xl font-semibold text-gray-800 mb-2">Management Jabatan</h1>
             <p className="text-gray-600 mb-6">Configure and manage company departments.</p>
-            <div className="flex gap-10">
+            <div className="flex gap-10 items-start">
 
                 {/* card tambah jabatan */}
                 <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 h-110 w-120">
