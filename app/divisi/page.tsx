@@ -28,7 +28,7 @@ return (
                       <form action="">
                         <label htmlFor="nama_divisi" className="font-bold text-gray-800">Nama Divisi</label>
                         <input type="text" id="nama_divisi" name="nama_divisi" className="border border-gray-200 bg-gray-100 rounded-xl py-2 px-4 w-full my-1" placeholder="Contoh: IT" />
-                        <button type="submit" className="bg-blue-900 text-white p-2 rounded-xl w-full mt-5"><span className="font-bold">Tambah</span></button>
+                        <button type="submit" className="cursor-pointer bg-blue-900 text-white p-2 rounded-xl w-full mt-5"><span className="font-bold">Tambah</span></button>
                       </form>
                     </div>
                 </div>
@@ -49,16 +49,16 @@ return (
                     <table className="w-full text-left border-collapse">
                       <thead>
                         <tr className="border-b border-gray-100 bg-gray-100/50">
-                          <th className="py-4 px-4 font-bold text-gray-800/60 w-16 text-sm">No</th>
-                          <th className="py-4 px-4 font-bold text-gray-800/60 w-full text-sm">Nama Divisi</th>
+                          <th className="py-4 px-4 font-bold text-gray-800/60 w-16 text-sm text-center">No</th>
+                          <th className="py-4 px-4 font-bold text-gray-800/60 text-sm text-center">Nama Divisi</th>
                           <th className="py-4 px-4 font-bold text-gray-800/60 text-center w-32 text-sm">Aksi</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                          <td className="py-4 px-4 text-gray-600">1</td>
-                          <td className="py-4 px-4 text-gray-800 font-medium">IT</td>
-                          <td className="py-4 px-4">
+                          <td className="py-4 px-4 text-gray-600 text-center font-medium">1</td>
+                          <td className="py-4 px-4 text-gray-800 text-center">IT</td>
+                          <td className="py-4 px-4 text-center">
                             <div className="flex justify-center gap-2">
                               <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit">
                                 <Pencil size={18} />
@@ -70,9 +70,9 @@ return (
                           </td>
                         </tr>
                         <tr className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                          <td className="py-4 px-4 text-gray-600">2</td>
-                          <td className="py-4 px-4 text-gray-800 font-medium">Marketing</td>
-                          <td className="py-4 px-4">
+                          <td className="py-4 px-4 text-gray-600 text-center font-medium">2</td>
+                          <td className="py-4 px-4 text-gray-800 text-center">Marketing</td>
+                          <td className="py-4 px-4 text-center">
                             <div className="flex justify-center gap-2">
                               <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit">
                                 <Pencil size={18} />
