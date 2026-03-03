@@ -100,7 +100,7 @@ return (
 
                             {/* button */}
                             <button type="submit"
-                                className="cursor-pointer bg-blue-900 text-white p-2 rounded-xl w-full mt-5 hover:bg-blue-950 transition-colors"><span
+                                className="cursor-pointer bg-blue-900 text-white p-2 rounded-xl w-full mt-5 hover:bg-blue-800 transition-colors"><span
                                     className="font-bold">Tambah</span></button>
                         </form>
                     </div>
