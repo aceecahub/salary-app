@@ -35,7 +35,7 @@ export default function Navigation() {
       {/* Sidebar Menu */}
       <nav className="flex flex-col gap-2">
         {/* Dashboard */}
-        <Link href="/dashboard">
+        <Link href="/admin/dashboard">
           <div className={`flex items-center gap-4 px-4 h-14 rounded-2xl cursor-pointer transition-all hover:bg-white/10 ${
             pathname === "/dashboard" ? "bg-white/15 text-white" : "text-white/70"
           }`}>
@@ -64,43 +64,43 @@ export default function Navigation() {
           {/* Sub-menu Master */}
           {isMasterOpen && (
             <div className="flex flex-col ml-8 mt-2 gap-1 border-l border-white/10">
-              <Link href="/divisi" className="w-full">
+              <Link href="/admin/divisi" className="w-full">
                 <SubMenuItem 
                   icon={<Building2 size={18} />} 
                   label="Divisi" 
-                  isActive={pathname === "/divisi"} 
+                  isActive={pathname === "/admin/divisi"} 
                 />
               </Link>
 
-              <Link href="/jabatan" className="w-full">
+              <Link href="/admin/jabatan" className="w-full">
                 <SubMenuItem 
                   icon={<Briefcase size={18} />} 
                   label="Jabatan" 
-                  isActive={pathname === "/jabatan"} 
+                  isActive={pathname === "/admin/jabatan"} 
                 />
               </Link>
 
-              <Link href="/karyawan" className="w-full">
+              <Link href="/admin/karyawan" className="w-full">
                 <SubMenuItem 
                   icon={<Users size={18} />} 
                   label="Karyawan" 
-                  isActive={pathname === "/karyawan"} 
+                  isActive={pathname === "/admin/karyawan"} 
                 />
               </Link>
 
-              <Link href="/user" className="w-full">
+              <Link href="/admin/user" className="w-full">
                 <SubMenuItem 
                   icon={<Contact2 size={18} />} 
                   label="User" 
-                  isActive={pathname === "/user"} 
+                  isActive={pathname === "/admin/user"} 
                 />
               </Link>
 
-              <Link href="/konfigurasi" className="w-full">
+              <Link href="/admin/konfigurasi" className="w-full">
                 <SubMenuItem 
                   icon={<Settings size={18} />} 
                   label="Konfigurasi" 
-                  isActive={pathname === "/konfigurasi"} 
+                  isActive={pathname === "/admin/konfigurasi"} 
                 />
               </Link>
             </div>

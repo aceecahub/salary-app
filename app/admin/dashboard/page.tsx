@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import Navigation from "../layout/navigation";
-import Header from "../layout/header";
+import Navigation from "../../layout/navigation";
+import Header from "../../layout/header";
 
 const DashboardPage = () => {
   return (

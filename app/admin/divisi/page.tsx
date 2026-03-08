@@ -1,6 +1,6 @@
 "use client";
-import Navigation from "../layout/navigation";
-import Header from "../layout/header";
+import Navigation from "../../layout/navigation";
+import Header from "../../layout/header";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 
@@ -56,7 +56,7 @@ const handleDelete = (id: number) => {
                     <div className="flex justify-between w-full">
                     <p className="text-lg font-bold text-gray-800">Daftar Divisi</p>
                     <div className="bg-green-200 h-6 w-25 rounded-xl flex justify-center items-center">
-                      <p className="text-center text-gray-800 text-sm">Total Divisi</p>
+                      <p className="text-center text-green-800 text-sm font-bold">{divisiList.length} Item total</p>
                     </div>
                     </div>
                   </div>

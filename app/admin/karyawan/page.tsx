@@ -1,10 +1,29 @@
 "use client";
 import React from "react";
-import Navigation from "../layout/navigation";
-import Header from "../layout/header";
+import Navigation from "../../layout/navigation";
+import Header from "../../layout/header";
 import { Plus, Pencil, Trash2 } from "lucide-react";
+import { useState } from "react";
 
 const KaryawanPage = () => {
+const [karyawanList, setKaryawanList] = useState([
+{ id: 1, nik: "2024001", nama_karyawan: "Budi Santoso", jabatan: "Software Engineer", status: "Aktif" },
+{ id: 2, nik: "2024002", nama_karyawan: "Siti Aminah", jabatan: "Marketing Manager", status: "Aktif" },
+]);
+
+const handleTambahKaryawan = (e: React.FormEvent) => {
+e.preventDefault();
+const target = e.target as HTMLFormElement;
+const nik = (target.nik as HTMLInputElement).value;
+const nama_karyawan = (target.nama_karyawan as HTMLInputElement).value;
+const jabatan = (target.jabatan as HTMLSelectElement).value;
+const status = (target.status as HTMLSelectElement).value;
+setKaryawanList([...karyawanList, { id: karyawanList.length + 1, nik, nama_karyawan, jabatan, status }]);
+}
+
+const handleDelete = (id: number) => {
+setKaryawanList(karyawanList.filter((karyawan) => karyawan.id !== id));
+}
 return (
 <div className="flex min-h-screen bg-gray-50">
     <Navigation />
@@ -27,7 +46,7 @@ return (
                     </div>
                     {/* form */}
                     <div className="p-2">
-                        <form action="">
+                        <form action="" onSubmit={handleTambahKaryawan}>
 
                             {/* nik and name */}
                             <div className="flex justify-between gap-2">
@@ -56,15 +75,17 @@ return (
                             {/* tempat lahir and tanggal lahir */}
                             <div className="flex justify-between gap-2">
                                 <div className="mb-4">
-                                    <label htmlFor="tempat_lahir" className="font-bold text-gray-800">Tempat Lahir</label>
+                                    <label htmlFor="tempat_lahir" className="font-bold text-gray-800">Tempat
+                                        Lahir</label>
                                     <input type="text" id="tempat_lahir" name="tempat_lahir"
                                         className="border border-gray-200 bg-gray-100 rounded-xl py-2 px-4 w-full my-1"
                                         placeholder="Kota" />
                                 </div>
                                 <div className="mb-4">
-                                    <label htmlFor="tanggal_lahir" className="font-bold text-gray-800">Tanggal Lahir</label>
+                                    <label htmlFor="tanggal_lahir" className="font-bold text-gray-800">Tanggal
+                                        Lahir</label>
                                     <input type="date" id="tanggal_lahir" name="tanggal_lahir"
-                                        className="border border-gray-200 bg-gray-100 rounded-xl py-2 px-4 w-full my-1"/>
+                                        className="border border-gray-200 bg-gray-100 rounded-xl py-2 px-4 w-full my-1" />
                                 </div>
                             </div>
 
@@ -89,8 +110,8 @@ return (
 
                             {/* Status Aktif */}
                             <div className="mb-2">
-                                <label htmlFor="status_aktif" className="font-bold text-gray-800">Status Aktif</label>
-                                <select id="status_aktif" name="status_aktif"
+                                <label htmlFor="status" className="font-bold text-gray-800">Status Aktif</label>
+                                <select id="status" name="status"
                                     className="border border-gray-200 bg-gray-100 rounded-xl py-2 px-4 w-full my-1">
                                     <option value="">Pilih Status Aktif</option>
                                     <option value="aktif">Aktif</option>
@@ -133,56 +154,36 @@ return (
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                                    <td className="py-4 px-4 text-gray-600 text-center font-medium">1</td>
-                                    <td className="py-4 px-4 text-gray-800">2024001</td>
-                                    <td className="py-4 px-4 text-gray-800">Budi Santoso</td>
-                                    <td className="py-4 px-4 text-gray-600">
-                                        <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium">Software Engineer</span>
-                                    </td>
-                                    <td className="py-4 px-4 text-center">
-                                        <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold uppercase">Aktif</span>
-                                    </td>
-                                    <td className="py-4 px-4 text-center">
-                                        <div className="flex justify-center gap-2">
-                                            <button
-                                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                                                title="Edit">
-                                                <Pencil size={18} />
-                                            </button>
-                                            <button
-                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                                title="Hapus">
-                                                <Trash2 size={18} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                                    <td className="py-4 px-4 text-gray-600 text-center font-medium">2</td>
-                                    <td className="py-4 px-4 text-gray-800">2024002</td>
-                                    <td className="py-4 px-4 text-gray-800">Siti Aminah</td>
-                                    <td className="py-4 px-4 text-gray-600">
-                                        <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium">Marketing Manager</span>
-                                    </td>
-                                    <td className="py-4 px-4 text-center">
-                                        <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold uppercase">Aktif</span>
-                                    </td>
-                                    <td className="py-4 px-4 text-center">
-                                        <div className="flex justify-center gap-2">
-                                            <button
-                                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                                                title="Edit">
-                                                <Pencil size={18} />
-                                            </button>
-                                            <button
-                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                                title="Hapus">
-                                                <Trash2 size={18} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    {karyawanList.map((items, index) => (
+                                        <tr key={items.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                                            <td className="py-4 px-4 text-gray-600 text-center font-medium">{index + 1}</td>
+                                            <td className="py-4 px-4 text-gray-800">{items.nik}</td>
+                                            <td className="py-4 px-4 text-gray-800">{items.nama_karyawan}</td>
+                                            <td className="py-4 px-4 text-gray-600">
+                                                <span
+                                                    className="bg-blue-50 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium">{items.jabatan}</span>
+                                            </td>
+                                            <td className="py-4 px-4 text-center">
+                                                <span
+                                                    className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${items.status === "Aktif" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>{items.status} </span>
+                                            </td>
+                                            <td className="py-4 px-4 text-center">
+                                                <div className="flex justify-center gap-2"> 
+                                                    <button
+                                                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                        title="Edit">
+                                                        <Pencil size={18} />
+                                                    </button>
+                                                    <button
+                                                    onClick={() => handleDelete(items.id)}
+                                                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                        title="Hapus">
+                                                        <Trash2 size={18} />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
                             </tbody>
                         </table>
                     </div>

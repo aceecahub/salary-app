@@ -8,6 +8,7 @@ export default function SignUp() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("Admin");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);  
 
@@ -37,7 +38,7 @@ export default function SignUp() {
       localStorage.setItem("access_token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      router.push("/dashboard");
+      router.push("admin/dashboard");
     } catch (err: any) {
       setError(err.message);
     } finally {
