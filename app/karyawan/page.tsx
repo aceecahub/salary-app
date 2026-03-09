@@ -1,15 +1,41 @@
 "use client";
 import React from "react";
-import Navigation from "../../layout/navigation";
-import Header from "../../layout/header";
+import Navigation from "../layout/navigation";
+import Header from "../layout/header";
 import { Plus, Pencil, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const KaryawanPage = () => {
+  const router = useRouter();
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 const [karyawanList, setKaryawanList] = useState([
 { id: 1, nik: "2024001", nama_karyawan: "Budi Santoso", jabatan: "Software Engineer", status: "Aktif" },
 { id: 2, nik: "2024002", nama_karyawan: "Siti Aminah", jabatan: "Marketing Manager", status: "Aktif" },
 ]);
+
+useEffect(() => {
+  const userString = localStorage.getItem("user");
+  if (userString) {
+    try {
+      const user = JSON.parse(userString);
+      setUserRole(user.role);
+      if (user.role !== "admin") {
+        router.push("/dashboard");
+      } else {
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error parsing user:", error);
+      router.push("/login");
+    }
+  } else {
+    router.push("/login");
+  }
+}, [router]);
+
+if (loading) return null;
 
 const handleTambahKaryawan = (e: React.FormEvent) => {
 e.preventDefault();

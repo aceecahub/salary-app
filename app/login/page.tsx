@@ -38,7 +38,7 @@ export default function SignUp() {
       localStorage.setItem("access_token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      router.push("admin/dashboard");
+      router.push("/dashboard");
     } catch (err: any) {
       setError(err.message);
     } finally {

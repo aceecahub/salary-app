@@ -1,14 +1,40 @@
 "use client";
-import Navigation from "../../layout/navigation";
-import Header from "../../layout/header";
+import Navigation from "../layout/navigation";
+import Header from "../layout/header";
 import { Plus, Pencil, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const DivisiPage = () => {
+  const router = useRouter();
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const [divisiList, setDivisiList] = useState([
     { id: 1, nama_divisi: "IT" },
     { id: 2, nama_divisi: "Marketing" },
   ]);
+
+  useEffect(() => {
+    const userString = localStorage.getItem("user");
+    if (userString) {
+      try {
+        const user = JSON.parse(userString);
+        setUserRole(user.role);
+        if (user.role !== "admin") {
+          router.push("/dashboard");
+        } else {
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Error parsing user:", error);
+        router.push("/login");
+      }
+    } else {
+      router.push("/login");
+    }
+  }, [router]);
+
+  if (loading) return null;
 
 const handleTambahDivisi = (e: React.FormEvent) => {
   e.preventDefault();

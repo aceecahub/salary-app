@@ -1,8 +1,28 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Bell, User, Search } from "lucide-react";
 
 export default function Header({ title }: { title: string }) {
+  const [userData, setUserData] = useState<{ name: string; role: string }>({
+    name: "Loading...",
+    role: "User",
+  });
+
+  useEffect(() => {
+    const userString = localStorage.getItem("user");
+    if (userString) {
+      try {
+        const user = JSON.parse(userString);
+        setUserData({
+          name: user.name || "Unknown User",
+          role: user.role || "User",
+        });
+      } catch (error) {
+        console.error("Error parsing user from localStorage:", error);
+      }
+    }
+  }, []);
+
   return (
     <header className="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-8 sticky top-0 z-10 shadow-sm">
       <div className="flex items-center gap-4">
@@ -29,8 +49,8 @@ export default function Header({ title }: { title: string }) {
         {/* Profile */}
         <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-semibold text-gray-800">Administrator</p>
-            <p className="text-xs text-gray-400 font-medium">Admin</p>
+            <p className="text-sm font-semibold text-gray-800">{userData.name}</p>
+            <p className="text-xs text-gray-400 font-medium capitalize">{userData.role}</p>
           </div>
           <div className="h-10 w-10 bg-[#00b5ad]/10 text-[#00b5ad] rounded-xl flex justify-center items-center font-bold">
             <User size={20} />
