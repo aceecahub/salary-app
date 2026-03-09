@@ -3,8 +3,53 @@ import React from "react";
 import Navigation from "../layout/navigation";
 import Header from "../layout/header";
 import { Plus, Pencil, Trash2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const KonfigurasiPage = () => {
+  const router = useRouter();
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+    const [konfigurasiList, setKonfigurasiList] = useState([
+        { id: 1, tahun: "2024", jatah_cuti: "12", nilai_uang_percuti: "100000", status: "Aktif" },
+        { id: 2, tahun: "2025", jatah_cuti: "12", nilai_uang_percuti: "100000", status: "Tidak Aktif" },
+    ]);
+
+    useEffect(() => {
+      const userString = localStorage.getItem("user");
+      if (userString) {
+        try {
+          const user = JSON.parse(userString);
+          setUserRole(user.role);
+          if (user.role !== "admin") {
+            router.push("/dashboard");
+          } else {
+            setLoading(false);
+          }
+        } catch (error) {
+          console.error("Error parsing user:", error);
+          router.push("/login");
+        }
+      } else {
+        router.push("/login");
+      }
+    }, [router]);
+
+    if (loading) return null;
+
+    const handleTambahKonfigurasi = (e: React.FormEvent) => {
+      e.preventDefault();
+      const target = e.target as HTMLFormElement;
+      const tahun = (target.tahun as HTMLInputElement).value;
+      const jatah_cuti = (target.jatah_cuti as HTMLInputElement).value;
+      const nilai_uang_percuti = (target.nilai_uang_percuti as HTMLInputElement).value;
+      const status = (target.status as HTMLSelectElement).value;
+      setKonfigurasiList([...konfigurasiList, { id: konfigurasiList.length + 1, tahun, jatah_cuti, nilai_uang_percuti, status }]);
+    }
+
+    const handleDeleteKonfigurasi = (id: number) => {
+        setKonfigurasiList(konfigurasiList.filter((konfigurasi) => konfigurasi.id !== id));
+    }
 return (
 <div className="flex min-h-screen bg-gray-50">
     <Navigation />
@@ -27,7 +72,7 @@ return (
                     </div>
                     {/* form */}
                     <div className="p-2">
-                        <form action="">
+                        <form action="" onSubmit={handleTambahKonfigurasi}>
                             <div className="mb-4">
                                 <label htmlFor="tahun" className="font-bold text-gray-800">Tahun</label>
                                 <input type="text" id="tahun" name="tahun"
@@ -51,8 +96,8 @@ return (
                                 <select id="status" name="status"
                                     className="border border-gray-200 bg-gray-100 rounded-xl py-2 px-4 w-full my-1">
                                     <option value="">Pilih Status</option>
-                                    <option value="">Aktif</option>
-                                    <option value="">Tidak Aktif</option>
+                                    <option value="Aktif">Aktif</option>
+                                    <option value="Tidak Aktif">Tidak Aktif</option>
                                 </select>
                             </div>
                             <button type="submit" className="cursor-pointer bg-blue-900 text-white p-2 rounded-xl w-full mt-5 hover:bg-blue-800 transition-colors"><span
@@ -86,48 +131,30 @@ return (
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                                    <td className="py-4 px-4 text-gray-600 text-center font-medium">1</td>
-                                    <td className="py-4 px-4 text-gray-800">2024</td>
-                                    <td className="py-4 px-4 text-gray-600">12 Hari</td>
-                                    <td className="py-4 px-4 text-green-600">Rp 10.000.000</td>
-                                    <td className="py-4 px-4 text-center">Aktif</td>
-                                    <td className="py-4 px-4 text-center">
-                                        <div className="flex justify-center gap-2">
-                                            <button
-                                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                                                title="Edit">
-                                                <Pencil size={18} />
-                                            </button>
-                                            <button
-                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                                title="Hapus">
-                                                <Trash2 size={18} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                                    <td className="py-4 px-4 text-gray-600 text-center font-medium">2</td>
-                                    <td className="py-4 px-4 text-gray-800">2025</td>
-                                    <td className="py-4 px-4 text-gray-600">12 Hari</td>
-                                    <td className="py-4 px-4 text-green-600">Rp 10.000.000</td>
-                                    <td className="py-4 px-4 text-center">Aktif</td>
-                                    <td className="py-4 px-4 text-center">
-                                        <div className="flex justify-center gap-2">
-                                            <button
-                                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                                                title="Edit">
-                                                <Pencil size={18} />
-                                            </button>
-                                            <button
-                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                                title="Hapus">
-                                                <Trash2 size={18} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {konfigurasiList.map((konfigurasi) => (
+                                    <tr className="border-b border-gray-50 hover:bg-gray-50 transition-colors" key={konfigurasi.id}>
+                                        <td className="py-4 px-4 text-gray-600 text-center font-medium">{konfigurasi.id}</td>
+                                        <td className="py-4 px-4 text-gray-800">{konfigurasi.tahun}</td>
+                                        <td className="py-4 px-4 text-gray-600">{konfigurasi.jatah_cuti} Hari</td>
+                                        <td className="py-4 px-4 text-green-600">Rp {konfigurasi.nilai_uang_percuti}</td>
+                                        <td className="py-4 px-4 text-center">{konfigurasi.status}</td>
+                                        <td className="py-4 px-4 text-center">
+                                            <div className="flex justify-center gap-2">
+                                                <button
+                                                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                    title="Edit">
+                                                    <Pencil size={18} />
+                                                </button>
+                                                <button
+                                                onClick={()=> handleDeleteKonfigurasi(konfigurasi.id)}
+                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                    title="Hapus">
+                                                    <Trash2 size={18} />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>

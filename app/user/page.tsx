@@ -3,8 +3,52 @@ import React from "react";
 import Navigation from "../layout/navigation";
 import Header from "../layout/header";
 import { Plus, Pencil, Trash2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const UserPage = () => {
+  const router = useRouter();
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+    const [userList, setUserList] = useState([
+    { id: 1, nama: "Json", email: "admin@gmail.com", role: "Admin" },
+    { id: 2, nama: "Budi", email: "user@gmail.com", role: "User" },
+  ]);
+
+  useEffect(() => {
+    const userString = localStorage.getItem("user");
+    if (userString) {
+      try {
+        const user = JSON.parse(userString);
+        setUserRole(user.role);
+        if (user.role !== "admin") {
+          router.push("/dashboard");
+        } else {
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Error parsing user:", error);
+        router.push("/login");
+      }
+    } else {
+      router.push("/login");
+    }
+  }, [router]);
+
+  if (loading) return null;
+
+const handleTambahUser = (e: React.FormEvent) => {
+  e.preventDefault();
+  const target = e.target as HTMLFormElement;
+  const nama = (target.nama as HTMLInputElement).value;
+  const email = (target.email as HTMLInputElement).value;
+  const role = (target.role as HTMLSelectElement).value;
+  setUserList([...userList, { id: userList.length + 1, nama, email, role }]);
+}
+
+const handleDelete = (id: number) => {
+  setUserList(userList.filter((user) => user.id !== id));
+}
 return (
 <div className="flex min-h-screen bg-gray-50">
     <Navigation />
@@ -27,7 +71,7 @@ return (
                     </div>
                     {/* form */}
                     <div className="p-2">
-                        <form action="">
+                        <form action="" onSubmit={handleTambahUser}>
                             <div className="mb-4">
                                 <label htmlFor="nama" className="font-bold text-gray-800">Nama</label>
                                 <input type="text" id="nama" name="nama"
@@ -51,8 +95,8 @@ return (
                                 <select id="role" name="role"
                                     className="border border-gray-200 bg-gray-100 rounded-xl py-2 px-4 w-full my-1">
                                     <option value="">Pilih Role</option>
-                                    <option value="">Admin</option>
-                                    <option value="">User</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="User">User</option>
                                 </select>
                             </div>
                             <button type="submit" className="cursor-pointer bg-blue-900 text-white p-2 rounded-xl w-full mt-5 hover:bg-blue-800 transition-colors"><span
@@ -67,7 +111,7 @@ return (
                         <div className="flex justify-between w-full">
                             <p className="text-lg font-bold text-gray-800">Daftar Jabatan</p>
                             <div className="bg-green-200 h-6 w-25 rounded-xl flex justify-center items-center">
-                                <p className="text-center text-gray-800 text-sm">Total Jabatan</p>
+                                <p className="text-center text-green-800 text-sm font-bold">{userList.length} Item total</p>
                             </div>
                         </div>
                     </div>
@@ -85,46 +129,29 @@ return (
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                                    <td className="py-4 px-4 text-gray-600 text-center font-medium">1</td>
-                                    <td className="py-4 px-4 text-gray-800">Json</td>
-                                    <td className="py-4 px-4 text-gray-600">json@gmail.com</td>
-                                    <td className="py-4 px-4 text-green-600">Admin</td>
-                                    <td className="py-4 px-4 text-center">
-                                        <div className="flex justify-center gap-2">
-                                            <button
-                                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                                                title="Edit">
-                                                <Pencil size={18} />
-                                            </button>
-                                            <button
-                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                                title="Hapus">
-                                                <Trash2 size={18} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                                    <td className="py-4 px-4 text-gray-600 text-center font-medium">2</td>
-                                    <td className="py-4 px-4 text-gray-800">Jsie</td>
-                                    <td className="py-4 px-4 text-gray-600">jsie@gmail.com</td>
-                                    <td className="py-4 px-4 text-green-600">User</td>
-                                    <td className="py-4 px-4 text-center">
-                                        <div className="flex justify-center gap-2">
-                                            <button
-                                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                                                title="Edit">
-                                                <Pencil size={18} />
-                                            </button>
-                                            <button
-                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                                title="Hapus">
-                                                <Trash2 size={18} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {userList.map((user) => (
+                                    <tr key={user.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                                        <td className="py-4 px-4 text-gray-600 text-center font-medium">{user.id}</td>
+                                        <td className="py-4 px-4 text-gray-800">{user.nama}</td>
+                                        <td className="py-4 px-4 text-gray-600">{user.email}</td>
+                                        <td className={`py-4 px-4 font-medium ${user.role === "Admin" ? "text-green-600" : "text-blue-600"}`}>{user.role}</td>
+                                        <td className="py-4 px-4 text-center">
+                                            <div className="flex justify-center gap-2">
+                                                <button
+                                                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                    title="Edit">
+                                                    <Pencil size={18} />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(user.id)}
+                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                    title="Hapus">
+                                                    <Trash2 size={18} />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
