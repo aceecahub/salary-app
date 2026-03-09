@@ -38,13 +38,14 @@ useEffect(() => {
 if (loading) return null;
 
 const handleTambahKaryawan = (e: React.FormEvent) => {
-e.preventDefault();
-const target = e.target as HTMLFormElement;
-const nik = (target.nik as HTMLInputElement).value;
-const nama_karyawan = (target.nama_karyawan as HTMLInputElement).value;
-const jabatan = (target.jabatan as HTMLSelectElement).value;
-const status = (target.status as HTMLSelectElement).value;
-setKaryawanList([...karyawanList, { id: karyawanList.length + 1, nik, nama_karyawan, jabatan, status }]);
+ e.preventDefault();
+ const target = e.target as HTMLFormElement;
+ const elements = target.elements;
+ const nik = (elements.namedItem("nik") as HTMLInputElement).value;
+ const nama_karyawan = (elements.namedItem("nama_karyawan") as HTMLInputElement).value;
+ const jabatan = (elements.namedItem("jabatan") as HTMLSelectElement).value;
+ const status = (elements.namedItem("status") as HTMLSelectElement).value;
+ setKaryawanList([...karyawanList, { id: karyawanList.length + 1, nik, nama_karyawan, jabatan, status }]);
 }
 
 const handleDelete = (id: number) => {

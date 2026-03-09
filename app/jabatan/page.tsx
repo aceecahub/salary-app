@@ -38,12 +38,13 @@ useEffect(() => {
 if (loading) return null;
 
 const handleTambahDivisi = (e: React.FormEvent) => {
-e.preventDefault();
-const target = e.target as HTMLFormElement;
-const namaDivisi = (target.nama_jabatan as HTMLInputElement).value;
-const divisi = (target.divisi as HTMLSelectElement).value;
-const gaji = (target.gaji as HTMLInputElement).value;
-setJabatanList([...jabatanList, { id: jabatanList.length + 1, nama_jabatan: namaDivisi, divisi: divisi, gaji: gaji }]);
+ e.preventDefault();
+ const target = e.target as HTMLFormElement;
+ const elements = target.elements;
+ const namaDivisi = (elements.namedItem("nama_jabatan") as HTMLInputElement).value;
+ const divisi = (elements.namedItem("divisi") as HTMLSelectElement).value;
+ const gaji = (elements.namedItem("gaji") as HTMLInputElement).value;
+ setJabatanList([...jabatanList, { id: jabatanList.length + 1, nama_jabatan: namaDivisi, divisi: divisi, gaji: gaji }]);
 }
 
 const handleDelete = (id: number) => {

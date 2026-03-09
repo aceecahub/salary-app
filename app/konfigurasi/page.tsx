@@ -40,10 +40,11 @@ const KonfigurasiPage = () => {
     const handleTambahKonfigurasi = (e: React.FormEvent) => {
       e.preventDefault();
       const target = e.target as HTMLFormElement;
-      const tahun = (target.tahun as HTMLInputElement).value;
-      const jatah_cuti = (target.jatah_cuti as HTMLInputElement).value;
-      const nilai_uang_percuti = (target.nilai_uang_percuti as HTMLInputElement).value;
-      const status = (target.status as HTMLSelectElement).value;
+      const elements = target.elements;
+      const tahun = (elements.namedItem("tahun") as HTMLInputElement).value;
+      const jatah_cuti = (elements.namedItem("jatah_cuti") as HTMLInputElement).value;
+      const nilai_uang_percuti = (elements.namedItem("nilai_uang_percuti") as HTMLInputElement).value;
+      const status = (elements.namedItem("status") as HTMLSelectElement).value;
       setKonfigurasiList([...konfigurasiList, { id: konfigurasiList.length + 1, tahun, jatah_cuti, nilai_uang_percuti, status }]);
     }
 

@@ -40,9 +40,10 @@ const UserPage = () => {
 const handleTambahUser = (e: React.FormEvent) => {
   e.preventDefault();
   const target = e.target as HTMLFormElement;
-  const nama = (target.nama as HTMLInputElement).value;
-  const email = (target.email as HTMLInputElement).value;
-  const role = (target.role as HTMLSelectElement).value;
+  const elements = target.elements;
+  const nama = (elements.namedItem("nama") as HTMLInputElement).value;
+  const email = (elements.namedItem("email") as HTMLInputElement).value;
+  const role = (elements.namedItem("role") as HTMLSelectElement).value;
   setUserList([...userList, { id: userList.length + 1, nama, email, role }]);
 }
 

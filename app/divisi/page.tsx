@@ -39,7 +39,8 @@ const DivisiPage = () => {
 const handleTambahDivisi = (e: React.FormEvent) => {
   e.preventDefault();
   const target = e.target as HTMLFormElement;
-  const namaDivisi = (target.nama_divisi as HTMLInputElement).value;
+  const elements = target.elements;
+  const namaDivisi = (elements.namedItem("nama_divisi") as HTMLInputElement).value;
   setDivisiList([...divisiList, { id: divisiList.length + 1, nama_divisi: namaDivisi }]);
 }
 
