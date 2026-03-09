@@ -34,16 +34,29 @@ const [userRole, setUserRole] = useState<string | null>(null);
 
     // login berdasarkan role
     useEffect(() => {
-    const userString = localStorage.getItem("user");
-    if (userString) {
-    try {
-    const user = JSON.parse(userString);
-    setUserRole(user.role);
-    } catch (error) {
-    console.error("Error parsing user from localStorage:", error);
-    }
-    }
+        const userString = localStorage.getItem("user");
+        if (userString) {
+            try {
+                const user = JSON.parse(userString);
+                setUserRole(user.role);
+            } catch (error) {
+                console.error("Error parsing user from localStorage:", error);
+            }
+        }
     }, []);
+
+    // dropdown active logic
+    useEffect(() => {
+        const masterRoutes = ["/divisi", "/jabatan", "/karyawan", "/user", "/konfigurasi"];
+        const presensiRoutes = ["/presensi"];
+        const cutiRoutes = ["/cuti"];
+        const gajiRoutes = ["/gaji"];
+
+        setIsMasterOpen(masterRoutes.some(route => pathname.startsWith(route)));
+        setIsPresensiOpen(presensiRoutes.some(route => pathname.startsWith(route)));
+        setIsCutiOpen(cutiRoutes.some(route => pathname.startsWith(route)));
+        setIsGajiOpen(gajiRoutes.some(route => pathname.startsWith(route)));
+    }, [pathname]);
 
     return (
     <aside className="bg-[#01476e] w-64 h-screen p-4 flex flex-col gap-6 sticky top-0 overflow-y-auto">
@@ -74,7 +87,7 @@ const [userRole, setUserRole] = useState<string | null>(null);
                 <div onClick={()=> setIsMasterOpen(!isMasterOpen)}
                     className={`flex items-center justify-between px-4 h-14 border-2 rounded-2xl cursor-pointer
                     bg-transparent transition-all ${
-                    pathname === "/divisi" || pathname === "/jabatan" || pathname === "/karyawan"
+                    pathname.startsWith("/divisi") || pathname.startsWith("/jabatan") || pathname.startsWith("/karyawan") || pathname.startsWith("/user") || pathname.startsWith("/konfigurasi")
                     ? "border-[#00b5ad]/50 bg-white/5"
                     : "border-white/10 hover:border-white/30"
                     }`}
@@ -136,7 +149,7 @@ const [userRole, setUserRole] = useState<string | null>(null);
                 <div onClick={()=> setIsPresensiOpen(!isPresensiOpen)}
                     className={`flex items-center justify-between px-4 h-14 border-2 rounded-2xl cursor-pointer
                     bg-transparent transition-all ${
-                    pathname === "/presensi"
+                    pathname.startsWith("/presensi")
                     ? "border-[#00b5ad]/50 bg-white/5"
                     : "border-white/10 hover:border-white/30"
                     }`}
@@ -169,7 +182,7 @@ const [userRole, setUserRole] = useState<string | null>(null);
                 <div onClick={()=> setIsCutiOpen(!isCutiOpen)}
                     className={`flex items-center justify-between px-4 h-14 border-2 rounded-2xl cursor-pointer
                     bg-transparent transition-all ${
-                    pathname === "/cuti"
+                    pathname.startsWith("/cuti")
                     ? "border-[#00b5ad]/50 bg-white/5"
                     : "border-white/10 hover:border-white/30"
                     }`}
@@ -208,7 +221,7 @@ const [userRole, setUserRole] = useState<string | null>(null);
                 <div onClick={()=> setIsGajiOpen(!isGajiOpen)}
                     className={`flex items-center justify-between px-4 h-14 border-2 rounded-2xl cursor-pointer
                     bg-transparent transition-all ${
-                    pathname === "/gaji"
+                    pathname.startsWith("/gaji")
                     ? "border-[#00b5ad]/50 bg-white/5"
                     : "border-white/10 hover:border-white/30"
                     }`}
@@ -242,7 +255,7 @@ const [userRole, setUserRole] = useState<string | null>(null);
                     <div onClick={()=> setIsPresensiOpen(!isPresensiOpen)}
                         className={`flex items-center justify-between px-4 h-14 border-2 rounded-2xl cursor-pointer
                         bg-transparent transition-all ${
-                        pathname === "/presensi"
+                        pathname.startsWith("/presensi")
                         ? "border-[#00b5ad]/50 bg-white/5"
                         : "border-white/10 hover:border-white/30"
                         }`}
@@ -275,7 +288,7 @@ const [userRole, setUserRole] = useState<string | null>(null);
                     <div onClick={()=> setIsCutiOpen(!isCutiOpen)}
                         className={`flex items-center justify-between px-4 h-14 border-2 rounded-2xl cursor-pointer
                         bg-transparent transition-all ${
-                        pathname === "/cuti"
+                        pathname.startsWith("/cuti")
                         ? "border-[#00b5ad]/50 bg-white/5"
                         : "border-white/10 hover:border-white/30"
                         }`}
@@ -309,7 +322,7 @@ const [userRole, setUserRole] = useState<string | null>(null);
                 <div onClick={()=> setIsGajiOpen(!isGajiOpen)}
                     className={`flex items-center justify-between px-4 h-14 border-2 rounded-2xl cursor-pointer
                     bg-transparent transition-all ${
-                    pathname === "/gaji"
+                    pathname.startsWith("/gaji")
                     ? "border-[#00b5ad]/50 bg-white/5"
                     : "border-white/10 hover:border-white/30"
                     }`}
