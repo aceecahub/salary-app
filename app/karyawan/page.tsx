@@ -4,7 +4,6 @@ import Navigation from "../layout/navigation";
 import Header from "../layout/header";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 interface Jabatan {
   id: number;
   jabatan: string;
@@ -19,11 +18,16 @@ interface Karyawan {
   tanggal_lahir: string;
   alamat: string;
   id_jabatan: number | string;
-  status: string;
+  status_aktif: string | boolean;
   jabatan?: {
     jabatan: string;
   };
 }
+
+  // Fungsi pembantu untuk mengecek status aktif secara fleksibel
+  const isStatusAktif = (status: any) => {
+    return status === "Aktif" || status === true;
+  };
 
 const KaryawanPage = () => {
   const [karyawanList, setKaryawanList] = useState<Karyawan[]>([]);
@@ -92,7 +96,7 @@ const KaryawanPage = () => {
       tanggal_lahir: formData.get("tanggal_lahir"),
       alamat: formData.get("alamat"),
       id_jabatan: formData.get("id_jabatan"),
-      status: formData.get("status"),
+      status_aktif: formData.get("status_aktif"),
     };
 
     try {
@@ -213,12 +217,12 @@ const KaryawanPage = () => {
                       </select>
                     </div>
                     <div>
-                      <label htmlFor="status" className="block font-bold text-gray-800 text-sm mb-1">Status</label>
-                      <select id="status" name="status"
+                      <label htmlFor="status_aktif" className="block font-bold text-gray-800 text-sm mb-1">Status</label>
+                      <select id="status_aktif" name="status_aktif"
                         className="border border-gray-200 bg-gray-100 rounded-xl py-2 px-4 w-full outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium text-sm" required>
-                        <option value="">Pilih Status</option>
-                        <option value="Aktif">Aktif</option>
-                        <option value="Tidak Aktif">Tidak Aktif</option>
+                        <option value="">Pilih status</option>
+                        <option value="true">Aktif</option>
+                        <option value="false">Tidak Aktif</option>
                       </select>
                     </div>
                   </div>
@@ -248,7 +252,7 @@ const KaryawanPage = () => {
                       <th className="py-4 px-6 font-bold text-gray-500 text-xs uppercase">NIK</th>
                       <th className="py-4 px-6 font-bold text-gray-500 text-xs uppercase">Nama</th>
                       <th className="py-4 px-6 font-bold text-gray-500 text-xs uppercase">Jabatan</th>
-                      <th className="py-4 px-6 font-bold text-gray-500 text-xs uppercase text-center">Status</th>
+                      <th className="py-4 px-6 font-bold text-gray-500 text-xs uppercase text-center">status</th>
                       <th className="py-4 px-6 font-bold text-gray-500 text-xs uppercase text-center w-28">Aksi</th>
                     </tr>
                   </thead>
@@ -264,9 +268,9 @@ const KaryawanPage = () => {
                           </td>
                           <td className="py-4 px-6 text-center">
                             <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase ${
-                              item.status === "Aktif" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                              isStatusAktif(item.status_aktif) ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
                             }`}>
-                              {item.status}
+                              {isStatusAktif(item.status_aktif) ? "Aktif" : "Tidak Aktif"}
                             </span>
                           </td>
                           <td className="py-4 px-6 text-center">
