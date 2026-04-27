@@ -144,7 +144,7 @@ const [userRole, setUserRole] = useState<string | null>(null);
 
             {/* Menu Lainnya */}
             {/* Presensi Menu Group */}
-            {userRole === "user" && (
+            {userRole === "karyawan" && (
             <div className="flex flex-col">
                 <div onClick={()=> setIsPresensiOpen(!isPresensiOpen)}
                     className={`flex items-center justify-between px-4 h-14 border-2 rounded-2xl cursor-pointer
@@ -177,7 +177,7 @@ const [userRole, setUserRole] = useState<string | null>(null);
             )}
 
             {/* Cuti Menu Group */}
-            {userRole === "user" && (
+            {userRole === "karyawan" && (
             <div className="flex flex-col">
                 <div onClick={()=> setIsCutiOpen(!isCutiOpen)}
                     className={`flex items-center justify-between px-4 h-14 border-2 rounded-2xl cursor-pointer
@@ -216,7 +216,7 @@ const [userRole, setUserRole] = useState<string | null>(null);
             )}
 
             {/* Gaji Menu Group */}
-            {userRole === "user" && (
+            {userRole === "karyawan" && (
             <div className="flex flex-col">
                 <div onClick={()=> setIsGajiOpen(!isGajiOpen)}
                     className={`flex items-center justify-between px-4 h-14 border-2 rounded-2xl cursor-pointer
